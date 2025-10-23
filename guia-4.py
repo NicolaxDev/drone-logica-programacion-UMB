@@ -54,13 +54,13 @@ while True:
     nx = x + dx
 
     if not (0 <= ny < len(map) and 0 <= nx < len(map[0])):
-        print("No puedes salir del mapa.")
+        print("No puedes salirte del mapa.")
         continue
 
     destino = map[ny][nx]
 
     if destino == "#":
-        print("¡Colisión con muro!")
+        print("############################### Colisión con muro ###############################")
         continue
     elif destino == "T":
         map[y][x] = " "
