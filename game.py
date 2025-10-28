@@ -1,13 +1,12 @@
 import tkinter as tk
 
+colorBg = "#10002b"
+
 root = tk.Tk()
 root.title("Drone game")
-colorBg = "#10002b"
 root.configure(background=colorBg)
 
-frame = tk.Frame(root, highlightbackground="blue", highlightthickness=5)
-
-map = [
+mapStructure = [
     ["D"," "," "," ","#"," "," "," "," "," "," "," "," "," "," ","#"],
     ["#"," ","#"," ","#"," "," "," "," "," "," ","#"," "," "," ","#"],
     ["#"," ","#"," "," "," ","#"," "," "," ","#","#"," ","V"," ","#"],
@@ -30,11 +29,6 @@ map = [
     ["#","#","#","#","#","#","#","#","#","#","#","#","#","#","#","#"]
 ]
 
-wallscolor = "#613dc1"
-droneColor = "#f4effa"
-powerUpColor = "#76c893"
-destinationColor = "#edf67d"
-
 class Entitie:
     pass
 
@@ -45,12 +39,6 @@ class Drone(Entitie):
         self.posY = posY
         self.power_up = False
         print(f"Drone creado en x: {posX}, y: {posY}")
-
-    def mostrar_mapa(self):
-        for fila in self.mapa:
-            for elemento in fila:
-                print(elemento, end=" ")
-            print()
 
     def mover(self):
         while True:
@@ -117,33 +105,48 @@ class Drone(Entitie):
                 self.posX = nx
 
             print("\n" * 5)
-wallscolor = "#613dc1"
-droneColor = "#f4effa"
-powerUpColor = "#76c893"
-destinationColor = "#edf67d"
-#mapa
-for fila_idx, fila in enumerate(map):
-    for columna_idx, valor in enumerate(fila):
-        frame_celda = tk.Frame(root, padx=20, pady=10, )
-        frame_celda.grid(row=fila_idx, column=columna_idx)
-        labelColor=colorBg
-        if valor == "#":
-            frame_celda.config(bg=wallscolor)
-            labelColor = wallscolor
-        elif valor == "V":
-            frame_celda.config(bg=powerUpColor, padx=10, pady=2)
-            labelColor = powerUpColor
-        elif valor == "D":
-            frame_celda.config(bg=droneColor, padx=10, pady=2)
-            labelColor = droneColor
-        elif valor == "T":
-            frame_celda.config(bg=destinationColor,)
-            labelColor = destinationColor
-        else:
-            frame_celda.config(bg=colorBg)
-            labelColor = colorBg
-            
-        label_valor = tk.Label(frame_celda, bg=labelColor)#text=str(valor))
-        label_valor.pack()
 
-root.mainloop()
+class World:
+
+    wallscolor = "#613dc1"
+    droneColor = "#f4effa"
+    powerUpColor = "#76c893"
+    destinationColor = "#edf67d"
+    bgColor = ""
+
+
+    def __init__(self, map, bgColor):
+        self.map = map
+        self.bgColor = bgColor
+        print("mapa asignado")
+    
+    def renderizarMapa(self, root):
+
+        for fila_idx, fila in enumerate(self.map):
+            for columna_idx, valor in enumerate(fila):
+                frame_celda = tk.Frame(root, padx=20, pady=10, )
+                frame_celda.grid(row=fila_idx, column=columna_idx)
+                labelColor=colorBg
+                if valor == "#":
+                    frame_celda.config(bg=self.wallscolor)
+                    labelColor = self.wallscolor
+                elif valor == "V":
+                    frame_celda.config(bg=self.powerUpColor, padx=10, pady=2)
+                    labelColor = self.powerUpColor
+                elif valor == "D":
+                    frame_celda.config(bg=self.droneColor, padx=10, pady=2)
+                    labelColor = self.droneColor
+                elif valor == "T":
+                    frame_celda.config(bg=self.destinationColor,)
+                    labelColor = self.destinationColor
+                else:
+                    frame_celda.config(bg=self.bgColor)
+                    labelColor = self.bgColor
+            
+                label_valor = tk.Label(frame_celda, bg=labelColor)#text=str(valor))
+                label_valor.pack()
+                print("mapa creado")
+        root.mainloop()
+
+gameMap = World(mapStructure, colorBg)
+gameMap.renderizarMapa(root)
