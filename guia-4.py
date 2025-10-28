@@ -60,7 +60,7 @@ while True:
     destino = map[ny][nx]
 
     if destino == "#":
-        print("############################### Colisión con muro ###############################")
+        print("############################### Colisión con muro, no puedes pasar ###############################")
         continue
     elif destino == "T":
         map[y][x] = " "
